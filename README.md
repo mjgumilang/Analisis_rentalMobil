@@ -3,7 +3,7 @@
 Project analisis data end-to-end untuk bisnis rental mobil: mulai dari perancangan database relasional, penulisan query SQL untuk menjawab pertanyaan bisnis, hingga visualisasi dashboard interaktif.
 
 **Oleh:** Muhammad Jiddan Gumilang
-Email: muhammadjiddan.g@gmail.com | LinkedIn: (https://www.linkedin.com/in/muhammadjiddangumilang) |  [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/Analisis_Pembayaran?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+Email: muhammadjiddan.g@gmail.com | LinkedIn: (https://www.linkedin.com/in/muhammadjiddangumilang) |  Tableau Public: [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/Analisis_Pembayaran?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 ---
 
