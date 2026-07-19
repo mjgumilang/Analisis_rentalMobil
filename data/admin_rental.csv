@@ -1,0 +1,6 @@
+ID_ADMIN,NAMA_ADMIN,EMAIL_ADMIN,TELP_ADMIN,KATA_SANDI,ROLE,CREATED_AT
+1,Budi Hartono,budi.admin@rental.com,81111000001,**CENSORED**,SUPERADMIN,3/6/2026
+2,Sinta Rahayu,sinta.admin@rental.com,81111000002,**CENSORED**,ADMIN,3/6/2026
+3,Doni Firmansyah,doni.admin@rental.com,81111000003,**CENSORED**,ADMIN,3/6/2026
+4,Lia Kusumawati,lia.admin@rental.com,81111000004,**CENSORED**,ADMIN,3/6/2026
+5,Raka Pratama,raka.admin@rental.com,81111000005,**CENSORED**,ADMIN,3/6/2026

@@ -1,0 +1,21 @@
+ID_MOBIL,TIPE,MERK,MESIN,NOMOR_POLISI,HARGA_SEWA,HARGA_DP,STATUS_KETERSEDIAAN,CREATED_AT
+1,MPV,Toyota,Bensin,B 1234 ABC,300000,90000,Sedang Disewakan,3/6/2026
+2,SUV,Toyota,Diesel,B 2345 BCD,450000,135000,Sedang Disewakan,3/6/2026
+3,City Car,Toyota,Bensin,F 3456 CDE,350000,105000,Sedang Disewakan,3/6/2026
+4,Sedan,Toyota,Bensin,B 4567 DEF,700000,210000,Sedang Disewakan,3/6/2026
+5,City Car,Honda,Bensin,F 5678 EFG,250000,75000,Sedang Disewakan,3/6/2026
+6,MPV,Honda,Bensin,B 6789 FGH,320000,96000,Sedang Disewakan,3/6/2026
+7,SUV,Honda,Diesel,F 7890 GHI,500000,150000,Sedang Disewakan,3/6/2026
+8,MPV,Mitsubishi,Bensin,B 8901 HIJ,380000,114000,Sedang Disewakan,3/6/2026
+9,SUV,Mitsubishi,Diesel,B 9012 IJK,800000,240000,Sedang Disewakan,3/6/2026
+10,MPV,Daihatsu,Bensin,F 1023 JKL,275000,82500,Sedang Disewakan,3/6/2026
+11,City Car,Daihatsu,Listrik,B 1357 KLM,1500000,450000,Sedang Disewakan,3/6/2026
+12,MPV,Suzuki,Bensin,F 2468 LMN,290000,87000,Sedang Disewakan,3/6/2026
+13,SUV,Suzuki,Diesel,B 3579 MNO,600000,180000,Sedang Disewakan,3/6/2026
+14,Sedan,Nissan,Bensin,F 4680 NOP,750000,225000,Sedang Disewakan,3/6/2026
+15,SUV,Mazda,Diesel,B 5791 OPQ,900000,270000,Sedang Disewakan,3/6/2026
+16,MPV,Toyota,Bensin,F 6802 PQR,420000,126000,Sedang Diservis,3/6/2026
+17,Sedan,Honda,Listrik,B 7913 QRS,1200000,360000,Sedang Diservis,3/6/2026
+18,SUV,Mitsubishi,Bensin,F 8024 RST,650000,195000,Tersedia,3/6/2026
+19,City Car,Daihatsu,Bensin,B 9135 STU,310000,93000,Tersedia,3/6/2026
+20,MPV,Wuling,Listrik,F 1246 TUV,480000,144000,Tersedia,3/6/2026
