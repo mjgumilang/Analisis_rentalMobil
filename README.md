@@ -3,7 +3,7 @@
 Project analisis data end-to-end untuk bisnis rental mobil: mulai dari perancangan database relasional, penulisan query SQL untuk menjawab pertanyaan bisnis, hingga visualisasi dashboard interaktif.
 
 **Oleh:** Muhammad Jiddan Gumilang
-Email: muhammadjiddan.g@gmail.com | LinkedIn: (https://www.linkedin.com/in/muhammadjiddangumilang) |  Tableau Public: [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/Analisis_Pembayaran?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+Email: [email](mailto:muhammadjiddan.g@gmail.com) · LinkedIn: [LinkedIn](https://www.linkedin.com/in/muhammadjiddangumilang) · Tableau Public: [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/Analisis_Pembayaran?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 ---
 
@@ -18,8 +18,8 @@ Pertanyaan Bisnis → Cari Data → Analisis (SQL) → Insight → Rekomendasi B
 **Cakupan pekerjaan:**
 - Merancang ERD dan skema database relasional dari nol
 - Membuat 6 tabel (4 tabel master, 2 tabel transaksi) dengan relasi PK/FK
-- Menulis script PL/SQL untuk generate data dummy realistis (500 transaksi sewa, 300 pelanggan, 20 unit mobil, 15 supir)
-- Menulis 17 query SQL analitik terbagi ke dalam 4 area bisnis
+- Menyusun script PL/SQL untuk generate data dummy realistis (500 transaksi sewa, 300 pelanggan, 20 unit mobil, 15 supir) — dengan bantuan AI, lihat catatan di bagian bawah
+- Menulis 17 query SQL analitik terbagi ke dalam 4 area bisnis — mayoritas mandiri, sebagian kecil dengan arahan AI saat menemui kebuntuan teknis (lihat catatan di bagian bawah)
 - Menerjemahkan hasil query menjadi business insight dan rekomendasi
 - Membangun 5 dashboard interaktif di Tableau Public
 
@@ -46,7 +46,7 @@ Pertanyaan Bisnis → Cari Data → Analisis (SQL) → Insight → Rekomendasi B
 
 `Oracle SQL (Oracle Apex)` · `PL/SQL` · `Tableau Public` · `Draw.io / Lucidchart (ERD)`
 
-**Konsep SQL yang diterapkan:** JOIN (INNER/LEFT/RIGHT), GROUP BY + fungsi agregat, HAVING vs WHERE, Window Function (`OVER()`), CASE WHEN, dan PL/SQL scripting untuk data generation.
+**Konsep SQL yang diterapkan:** JOIN (INNER/LEFT/RIGHT), GROUP BY + fungsi agregat, HAVING vs WHERE, Window Function (`OVER()`), CASE WHEN.
 
 ---
 
@@ -84,6 +84,8 @@ rental-mobil-data-analysis/
 
 📄 Query lengkap: [`queries/01_revenue_keuangan.sql`](queries/01_revenue_keuangan.sql)
 
+> ⚠️ **Catatan revisi:** beberapa insight di atas masih bersifat umum (belum mencantumkan angka spesifik untuk semua klaim). Sedang direvisi agar setiap insight memuat angka dari data + alasan + implikasi bisnis yang jelas.
+
 ## 👥 Area 2 — Perilaku Pelanggan
 
 | Query | Insight Utama |
@@ -107,6 +109,8 @@ rental-mobil-data-analysis/
 
 📄 Query lengkap: [`queries/03_performa_mobil.sql`](queries/03_performa_mobil.sql)
 
+> ⚠️ **Catatan revisi:** "indikasi durasi sewa lebih panjang" dan beberapa insight lain di area ini masih dugaan, belum dicek dengan angka aktual dari query lama sewa. Perlu divalidasi sebelum jadi versi final.
+
 ## 🧑‍✈️ Area 4 — Performa Supir
 
 | Query | Insight Utama |
@@ -121,6 +125,8 @@ rental-mobil-data-analysis/
 
 ## 📊 Dashboard (Tableau Public)
 
+Lihat dashboard interaktif lengkap di 📊 [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/Analisis_Pembayaran?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
+
 | Dashboard | Isi | Key Metric |
 |---|---|---|
 | Overview Bisnis | KPI cards + tren pendapatan bulanan | Rp1.07B total revenue 2024 |
@@ -128,8 +134,6 @@ rental-mobil-data-analysis/
 | Analisis Pelanggan | Top 10 pelanggan, spending, penggunaan supir | Cahyo Purnomo #1 VIP |
 | Analisis Pembayaran | Distribusi metode & status transaksi | 79% transaksi lunas |
 | Performa Supir | Ranking, pendapatan, penugasan supir | Ganda Putra #1 produktif |
-
-🔗 **Link:** *(tambahkan link Tableau Public setelah publish)*
 
 ---
 
@@ -146,6 +150,14 @@ Detail insight dan narasi bisnis lengkap ada di [`docs/portfolio-summary.pdf`](d
 
 ---
 
-## 📌 Catatan
+## 📌 Catatan Proses & Keterlibatan AI
 
-Dataset pada project ini adalah **data dummy** yang digenerate menggunakan PL/SQL (lihat [`database/seed-data.sql`](database/seed-data.sql)) untuk keperluan pembelajaran dan portofolio — bukan data operasional perusahaan nyata.
+Dataset pada project ini adalah **data dummy**, digenerate untuk keperluan pembelajaran dan portofolio — bukan data operasional perusahaan nyata.
+
+Sebagai bentuk transparansi soal penggunaan AI dalam project ini:
+
+- **17 query SQL** ([`queries/`](queries/)) sebagian besar saya tulis mandiri. 1–3 query disusun dengan arahan Claude (Anthropic) saat saya menemui kebuntuan teknis — proses koreksi dan penjelasannya menjadi bagian dari proses belajar saya.
+- **[`database/seed-data.sql`](database/seed-data.sql)** (script PL/SQL untuk generate data dummy) disusun dengan bantuan penuh Claude. Saya memahami logikanya (looping, distribusi random, percabangan IF-ELSIF) dan bisa menjelaskannya, tapi belum menulis PL/SQL sekompleks ini dari nol secara independen.
+- Perancangan ERD, skema database, dan seluruh business insight adalah hasil pemikiran dan revisi saya sendiri, dengan AI sebagai partner diskusi untuk mengecek logika dan memberi umpan balik.
+
+Saya percaya AI adalah alat bantu, bukan pengganti proses belajar — sehingga kejelasan soal apa yang saya kerjakan mandiri vs. dengan bantuan penting untuk dicantumkan di sini.
