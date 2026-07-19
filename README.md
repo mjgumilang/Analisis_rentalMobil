@@ -7,7 +7,7 @@ Email: [email](mailto:muhammadjiddan.g@gmail.com) · LinkedIn: [LinkedIn](https:
 
 ---
 
-## 📋 Ringkasan Project
+## Ringkasan Project
 
 Data analyst tidak mulai dari data — tapi dari pertanyaan bisnis. Project ini mensimulasikan proses tersebut untuk sebuah bisnis rental mobil:
 
@@ -18,14 +18,13 @@ Pertanyaan Bisnis → Cari Data → Analisis (SQL) → Insight → Rekomendasi B
 **Cakupan pekerjaan:**
 - Merancang ERD dan skema database relasional dari nol
 - Membuat 6 tabel (4 tabel master, 2 tabel transaksi) dengan relasi PK/FK
-- Menyusun script PL/SQL untuk generate data dummy realistis (500 transaksi sewa, 300 pelanggan, 20 unit mobil, 15 supir) — dengan bantuan AI, lihat catatan di bagian bawah
 - Menulis 17 query SQL analitik terbagi ke dalam 4 area bisnis — mayoritas mandiri, sebagian kecil dengan arahan AI saat menemui kebuntuan teknis (lihat catatan di bagian bawah)
 - Menerjemahkan hasil query menjadi business insight dan rekomendasi
 - Membangun 5 dashboard interaktif di Tableau Public
 
 ---
 
-## 🗄️ Struktur Database
+## Struktur Database
 
 ![ERD Rental Mobil](database/erd.png)
 
@@ -42,7 +41,7 @@ Pertanyaan Bisnis → Cari Data → Analisis (SQL) → Insight → Rekomendasi B
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 `Oracle SQL (Oracle Apex)` · `PL/SQL` · `Tableau Public` · `Draw.io / Lucidchart (ERD)`
 
@@ -50,7 +49,7 @@ Pertanyaan Bisnis → Cari Data → Analisis (SQL) → Insight → Rekomendasi B
 
 ---
 
-## 📁 Struktur Repo
+## Struktur Repo
 
 ```
 rental-mobil-data-analysis/
@@ -59,20 +58,25 @@ rental-mobil-data-analysis/
 ├── database/
 │   ├── erd.png
 │   ├── schema.sql          # CREATE TABLE untuk 6 tabel
-│   └── seed-data.sql       # PL/SQL script generate data dummy
 ├── queries/
 │   ├── 01_revenue_keuangan.sql
 │   ├── 02_analisis_pelanggan.sql
 │   ├── 03_performa_mobil.sql
 │   └── 04_performa_supir.sql
 ├── data/                   # export CSV tiap tabel
+|   ├── mobil.csv
+|   ├── admin_rental.csv
+|   ├── bayar.csv
+|   ├── sewa.csv
+|   ├── supir.csv
+|   ├── mobil.csv
 └── docs/
     └── portfolio-summary.pdf
 ```
 
 ---
 
-## 💰 Area 1 — Revenue & Keuangan
+## Area 1 — Revenue & Keuangan
 
 | Query | Insight Utama |
 |---|---|
@@ -86,7 +90,7 @@ rental-mobil-data-analysis/
 
 > ⚠️ **Catatan revisi:** beberapa insight di atas masih bersifat umum (belum mencantumkan angka spesifik untuk semua klaim). Sedang direvisi agar setiap insight memuat angka dari data + alasan + implikasi bisnis yang jelas.
 
-## 👥 Area 2 — Perilaku Pelanggan
+##  Area 2 — Perilaku Pelanggan
 
 | Query | Insight Utama |
 |---|---|
@@ -98,7 +102,7 @@ rental-mobil-data-analysis/
 
 📄 Query lengkap: [`queries/02_analisis_pelanggan.sql`](queries/02_analisis_pelanggan.sql)
 
-## 🚗 Area 3 — Performa Armada Mobil
+##  Area 3 — Performa Armada Mobil
 
 | Query | Insight Utama |
 |---|---|
@@ -111,7 +115,7 @@ rental-mobil-data-analysis/
 
 > ⚠️ **Catatan revisi:** "indikasi durasi sewa lebih panjang" dan beberapa insight lain di area ini masih dugaan, belum dicek dengan angka aktual dari query lama sewa. Perlu divalidasi sebelum jadi versi final.
 
-## 🧑‍✈️ Area 4 — Performa Supir
+##  Area 4 — Performa Supir
 
 | Query | Insight Utama |
 |---|---|
@@ -123,7 +127,7 @@ rental-mobil-data-analysis/
 
 ---
 
-## 📊 Dashboard (Tableau Public)
+## Dashboard (Tableau Public)
 
 Lihat dashboard interaktif lengkap di 📊 [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/Analisis_Pembayaran?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
 
@@ -137,7 +141,7 @@ Lihat dashboard interaktif lengkap di 📊 [Tableau Public](https://public.table
 
 ---
 
-## 🔍 Key Recommendations
+##  Key Recommendations
 
 - Alokasikan armada maksimal di periode peak season (Juni & Desember)
 - Program promo early bird / paket weekend untuk mengangkat performa Q3
@@ -150,14 +154,13 @@ Detail insight dan narasi bisnis lengkap ada di [`docs/portfolio-summary.pdf`](d
 
 ---
 
-## 📌 Catatan Proses & Keterlibatan AI
+##  Catatan Proses & Keterlibatan AI
 
 Dataset pada project ini adalah **data dummy**, digenerate untuk keperluan pembelajaran dan portofolio — bukan data operasional perusahaan nyata.
 
 Sebagai bentuk transparansi soal penggunaan AI dalam project ini:
 
 - **17 query SQL** ([`queries/`](queries/)) sebagian besar saya tulis mandiri. 1–3 query disusun dengan arahan Claude (Anthropic) saat saya menemui kebuntuan teknis — proses koreksi dan penjelasannya menjadi bagian dari proses belajar saya.
-- **[`database/seed-data.sql`](database/seed-data.sql)** (script PL/SQL untuk generate data dummy) disusun dengan bantuan penuh Claude. Saya memahami logikanya (looping, distribusi random, percabangan IF-ELSIF) dan bisa menjelaskannya, tapi belum menulis PL/SQL sekompleks ini dari nol secara independen.
 - Perancangan ERD, skema database, dan seluruh business insight adalah hasil pemikiran dan revisi saya sendiri, dengan AI sebagai partner diskusi untuk mengecek logika dan memberi umpan balik.
 
 Saya percaya AI adalah alat bantu, bukan pengganti proses belajar — sehingga kejelasan soal apa yang saya kerjakan mandiri vs. dengan bantuan penting untuk dicantumkan di sini.
