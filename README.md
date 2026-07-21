@@ -3,7 +3,7 @@
 Project analisis data end-to-end untuk bisnis rental mobil: mulai dari perancangan database relasional, penulisan query SQL untuk menjawab pertanyaan bisnis, hingga visualisasi dashboard interaktif.
 
 **Oleh:** Muhammad Jiddan Gumilang
-|| [email](mailto:muhammadjiddan.g@gmail.com) || [LinkedIn](https://www.linkedin.com/in/muhammadjiddangumilang) || [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/Analisis_Pembayaran?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+|| [email](mailto:muhammadjiddan.g@gmail.com) || [LinkedIn](https://www.linkedin.com/in/muhammadjiddangumilang) || [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/KPI_RentalMobil?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 ---
 
@@ -80,56 +80,52 @@ rental-mobil-data-analysis/
 
 | Query | Insight Utama |
 |---|---|
-| Total pendapatan per bulan | Peak revenue di Juni (Rp214.9M) dan Desember (Rp223.9M) — bertepatan dengan musim liburan |
-| Pendapatan per kuartal | Q4 kuartal terkuat; Q3 (Jul–Sep) paling lemah, berpotensi untuk promo early bird |
-| Kontribusi denda | Denda berkontribusi kecil terhadap revenue, namun konsisten tiap bulan → indikasi pola keterlambatan berulang |
-| Kerugian transaksi batal | Dihitung dari potensi pendapatan (harga sewa × lama reservasi), dasar untuk kebijakan cancellation fee |
-| Rata-rata nilai transaksi (AOV) | Fluktuasi AOV mengindikasikan perbedaan preferensi tipe mobil & durasi sewa antar bulan |
+| Total pendapatan per bulan | Juni & Desember menyumbang Rp438.8M (41.1% dari total Rp1.07B); Desember (Rp223.9M) 6.6× lipat November (Rp33.7M) — bisnis rapuh di luar peak season |
+| Pendapatan per kuartal | Q2→Q3 anjlok 39.4% (Rp336.2M → Rp203.9M, 144 → 87 transaksi) — pola "M-shape" yang sangat bergantung pada momen liburan |
+| Kontribusi denda | Total denda Rp11.7M (1.24% rata-rata revenue). Justru tertinggi di bulan sepi (Jan 2.16%, Nov 1.78%), terendah di peak season (Jun 0.79%, Des 0.71%) |
+| Kerugian transaksi batal | 59 transaksi batal = Rp159.7M potensi hilang (15% dari revenue aktual). 45.8% pembatalan terjadi di peak season (Jun+Des) |
+| Rata-rata nilai transaksi (AOV) | AOV rata-rata Rp2.36M. Uniknya, Juni (transaksi terbanyak) AOV-nya lebih rendah (Rp2.48M) dari Januari yang sepi (Rp2.67M) |
 
-📄 Query lengkap: [`queries/01_revenue_keuangan.sql`](queries/01_revenue_keuangan.sql)
+Query lengkap: [`queries/01_revenue_keuangan.sql`](queries/01_revenue_keuangan.sql)
 
-> ⚠️ **Catatan revisi:** beberapa insight di atas masih bersifat umum (belum mencantumkan angka spesifik untuk semua klaim). Sedang direvisi agar setiap insight memuat angka dari data + alasan + implikasi bisnis yang jelas.
-
-##  Area 2 — Perilaku Pelanggan
+## Area 2 — Perilaku Pelanggan
 
 | Query | Insight Utama |
 |---|---|
-| Top 10 pelanggan aktif | Pelanggan teratas 33% lebih aktif dari rata-rata → kandidat program loyalty |
-| Pengeluaran tertinggi | Pelanggan top spender mengeluarkan hampir 2× lipat peringkat kedua |
-| Keterlambatan berulang | Pola keterlambatan pada pelanggan tertentu → kandidat sistem reminder/deposit |
-| Penggunaan supir | 39% transaksi menggunakan supir — potensi upsell saat booking |
+| Top 10 pelanggan aktif | Cahyo Purnomo (ID:229) #1 dengan 7 transaksi. **Catatan data:** nama pelanggan ada yang duplikat (mis. Luthfi Anwar muncul di 2 ID berbeda) — semua insight di sini sudah di-dedup berdasarkan `id_pelanggan`, bukan nama |
+| Pengeluaran tertinggi | Top 5 pelanggan (termasuk Cahyo Purnomo Rp32M) menyumbang Rp99M (9.3% dari total) — distribusi spending cukup tersebar, tidak bergantung 1 pelanggan |
+| Keterlambatan berulang | 81 dari 300 pelanggan (27%) pernah terlambat; 11 pelanggan repeat offender. Cahyo Purnomo juga masuk 3 pelanggan paling sering terlambat (3×) |
+| Penggunaan supir | 39.4% transaksi (197/500) pakai supir, berkontribusi ~44.7% revenue — lebih tinggi dari proporsi volumenya, dihitung dengan window function `OVER()` |
 | Churn (1x transaksi) | 92 pelanggan (38% dari total aktif) hanya bertransaksi 1x → kandidat win-back campaign |
 
-📄 Query lengkap: [`queries/02_analisis_pelanggan.sql`](queries/02_analisis_pelanggan.sql)
+Query lengkap: [`queries/02_analisis_pelanggan.sql`](queries/02_analisis_pelanggan.sql)
 
-##  Area 3 — Performa Armada Mobil
-
-| Query | Insight Utama |
-|---|---|
-| Mobil paling sering disewa | Toyota mendominasi (25% dari total transaksi), MPV tipe terlaris |
-| Pendapatan per unit | Daihatsu City Car pendapatan tertinggi meski bukan tersering — indikasi durasi sewa lebih panjang |
-| Rata-rata lama sewa | Mengungkap utilization rate per unit mobil |
-| Mobil aktivitas rendah | Kandidat rotasi armada atau promo khusus agar tidak idle |
-
-📄 Query lengkap: [`queries/03_performa_mobil.sql`](queries/03_performa_mobil.sql)
-
-> ⚠️ **Catatan revisi:** "indikasi durasi sewa lebih panjang" dan beberapa insight lain di area ini masih dugaan, belum dicek dengan angka aktual dari query lama sewa. Perlu divalidasi sebelum jadi versi final.
-
-##  Area 4 — Performa Supir
+## Area 3 — Performa Armada Mobil
 
 | Query | Insight Utama |
 |---|---|
-| Supir paling sering ditugaskan | Gap 2.3× antara supir tersibuk dan tersedikit → perlu sistem rotasi lebih adil |
-| Pendapatan per supir | Korelasi kuat antara frekuensi penugasan dan pendapatan |
-| Supir belum ditugaskan | Semua 15 supir aktif beroperasi — indikasi manajemen SDM yang baik |
+| Mobil paling sering disewa | Toyota 126 transaksi (25.2%); MPV tipe terlaris (180 transaksi, 36%). 3 unit teratas (31 transaksi masing-masing) semuanya SUV |
+| Pendapatan per unit | Daihatsu City Car ID:11 tertinggi (Rp149.4M, Rp5,978,000/transaksi) — tapi unit ID:19 dengan tipe sama cuma Rp23.9M, selisih 5.2× → indikasi 2 varian harga berbeda (luxury vs standard) di 1 nama model |
+| Rata-rata lama sewa | Rata-rata 4.17 hari/transaksi. Honda Sedan (ID:17) terlama (4.8 hari) — konsisten dengan revenue/transaksi tertinggi (segmen bisnis/jarak jauh) |
+| Mobil aktivitas rendah | Semua 20 unit tersewa >10× (tidak ada yang idle), tapi gap unit tersibuk (31×) vs tersedikit (14×) mencapai 121% — distribusi permintaan tidak merata |
 
-📄 Query lengkap: [`queries/04_performa_supir.sql`](queries/04_performa_supir.sql)
+Query lengkap: [`queries/03_performa_mobil.sql`](queries/03_performa_mobil.sql)
+
+## Area 4 — Performa Supir
+
+| Query | Insight Utama |
+|---|---|
+| Supir paling sering ditugaskan | Ganda Putra teratas dengan 21 penugasan (total, termasuk transaksi batal) — gap 133% dari yang terendah, Dadang Hermawan (9×) |
+| Pendapatan per supir | Ganda Putra Rp56.1M dari 20 trip berbayar (transaksi batal dikecualikan) — 3.4× lebih tinggi dari Bambang Riyadi (Rp16.5M). Anomali: Maman Suryadi cuma 10 trip tapi revenue/trip tertinggi (Rp4.09M), 1.46× di atas Ganda Putra |
+| Supir belum ditugaskan | Semua 15 supir aktif beroperasi (0 idle) — indikasi manajemen SDM yang baik, meski beban kerja antar supir tidak merata |
+
+Query lengkap: [`queries/04_performa_supir.sql`](queries/04_performa_supir.sql)
 
 ---
 
 ## Dashboard (Tableau Public)
 
-Lihat dashboard interaktif lengkap di 📊 [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/Analisis_Pembayaran?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
+Lihat dashboard interaktif lengkap di [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/KPI_RentalMobil?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
 
 | Dashboard | Isi | Key Metric |
 |---|---|---|
