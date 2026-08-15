@@ -80,22 +80,24 @@ rental-mobil-data-analysis/
 
 | Query | Insight Utama |
 |---|---|
-| Total pendapatan per bulan | Juni & Desember menyumbang Rp438.8M (41.1% dari total Rp1.07B); Desember (Rp223.9M) 6.6× lipat November (Rp33.7M) — bisnis rapuh di luar peak season |
-| Pendapatan per kuartal | Q2→Q3 anjlok 39.4% (Rp336.2M → Rp203.9M, 144 → 87 transaksi) — pola "M-shape" yang sangat bergantung pada momen liburan |
-| Kontribusi denda | Total denda Rp11.7M (1.24% rata-rata revenue). Justru tertinggi di bulan sepi (Jan 2.16%, Nov 1.78%), terendah di peak season (Jun 0.79%, Des 0.71%) |
-| Kerugian transaksi batal | 59 transaksi batal = Rp159.7M potensi hilang (15% dari revenue aktual). 45.8% pembatalan terjadi di peak season (Jun+Des) |
-| Rata-rata nilai transaksi (AOV) | AOV rata-rata Rp2.36M. Uniknya, Juni (transaksi terbanyak) AOV-nya lebih rendah (Rp2.48M) dari Januari yang sepi (Rp2.67M) |
+| Total pendapatan per bulan | Juni & Desember menyumbang Rp410.4M (41.1% dari total Rp999.1M); Desember (Rp211.1M) 7.3× lipat November (Rp29.0M) — bisnis rapuh di luar peak season |
+| Pendapatan per kuartal | Q2→Q3 anjlok 37.6% (Rp307.0M → Rp191.7M, 144 → 87 transaksi) — pola "M-shape" yang sangat bergantung pada momen liburan |
+| Kontribusi denda | Total denda Rp11.7M (1.33% rata-rata revenue). Justru tertinggi di bulan sepi (Jan 2.20%, Nov 2.07%), terendah di peak season (Jun 0.85%, Des 0.76%) |
+| Kerugian transaksi batal | 59 transaksi batal = Rp159.7M potensi hilang (16% dari revenue aktual). 45.8% pembatalan terjadi di peak season (Jun+Des) |
+| Rata-rata nilai transaksi (AOV) | AOV rata-rata Rp2.27M. Uniknya, Juni (transaksi terbanyak) AOV-nya lebih rendah (Rp2.32M) dari Januari yang sepi (Rp2.68M) |
 
 Query lengkap: [`queries/01_revenue_keuangan.sql`](queries/01_revenue_keuangan.sql)
+
+> **Catatan koreksi:** Revenue di atas sudah dikoreksi dari perhitungan awal yang sempat menghitung transaksi berstatus `DP` (baru bayar sebagian) sebagai lunas penuh. Setelah dikoreksi dengan `CASE WHEN status_bayar = 'DP' THEN dp_awal ELSE total_bayar END`, total revenue turun dari Rp1.07M menjadi Rp999.1M (koreksi ~6.5%).
 
 ## Area 2 — Perilaku Pelanggan
 
 | Query | Insight Utama |
 |---|---|
 | Top 10 pelanggan aktif | Cahyo Purnomo (ID:229) #1 dengan 7 transaksi. **Catatan data:** nama pelanggan ada yang duplikat (mis. Luthfi Anwar muncul di 2 ID berbeda) — semua insight di sini sudah di-dedup berdasarkan `id_pelanggan`, bukan nama |
-| Pengeluaran tertinggi | Top 5 pelanggan (termasuk Cahyo Purnomo Rp32M) menyumbang Rp99M (9.3% dari total) — distribusi spending cukup tersebar, tidak bergantung 1 pelanggan |
+| Pengeluaran tertinggi | Top 5 pelanggan (termasuk Cahyo Purnomo Rp30.7M) menyumbang Rp94M (9.4% dari total) — distribusi spending cukup tersebar, tidak bergantung 1 pelanggan |
 | Keterlambatan berulang | 81 dari 300 pelanggan (27%) pernah terlambat; 11 pelanggan repeat offender. Cahyo Purnomo juga masuk 3 pelanggan paling sering terlambat (3×) |
-| Penggunaan supir | 39.4% transaksi (197/500) pakai supir, berkontribusi ~44.7% revenue — lebih tinggi dari proporsi volumenya, dihitung dengan window function `OVER()` |
+| Penggunaan supir | 39.0% transaksi valid (172/441) pakai supir, berkontribusi ~40.2% revenue (Rp402.1M) — lebih tinggi dari proporsi volumenya, dihitung dengan window function `OVER()` |
 | Churn (1x transaksi) | 92 pelanggan (38% dari total aktif) hanya bertransaksi 1x → kandidat win-back campaign |
 
 Query lengkap: [`queries/02_analisis_pelanggan.sql`](queries/02_analisis_pelanggan.sql)
@@ -105,7 +107,7 @@ Query lengkap: [`queries/02_analisis_pelanggan.sql`](queries/02_analisis_pelangg
 | Query | Insight Utama |
 |---|---|
 | Mobil paling sering disewa | Toyota 126 transaksi (25.2%); MPV tipe terlaris (180 transaksi, 36%). 3 unit teratas (31 transaksi masing-masing) semuanya SUV |
-| Pendapatan per unit | Daihatsu City Car ID:11 tertinggi (Rp149.4M, Rp5,978,000/transaksi) — tapi unit ID:19 dengan tipe sama cuma Rp23.9M, selisih 5.2× → indikasi 2 varian harga berbeda (luxury vs standard) di 1 nama model |
+| Pendapatan per unit | Daihatsu City Car ID:11 tertinggi (Rp147.4M, Rp5,894,000/transaksi) — tapi unit ID:19 dengan tipe sama cuma Rp22.2M, selisih 5.6× → indikasi 2 varian harga berbeda (luxury vs standard) di 1 nama model |
 | Rata-rata lama sewa | Rata-rata 4.17 hari/transaksi. Honda Sedan (ID:17) terlama (4.8 hari) — konsisten dengan revenue/transaksi tertinggi (segmen bisnis/jarak jauh) |
 | Mobil aktivitas rendah | Semua 20 unit tersewa >10× (tidak ada yang idle), tapi gap unit tersibuk (31×) vs tersedikit (14×) mencapai 121% — distribusi permintaan tidak merata |
 
@@ -116,7 +118,7 @@ Query lengkap: [`queries/03_performa_mobil.sql`](queries/03_performa_mobil.sql)
 | Query | Insight Utama |
 |---|---|
 | Supir paling sering ditugaskan | Ganda Putra teratas dengan 21 penugasan (total, termasuk transaksi batal) — gap 133% dari yang terendah, Dadang Hermawan (9×) |
-| Pendapatan per supir | Ganda Putra Rp56.1M dari 20 trip berbayar (transaksi batal dikecualikan) — 3.4× lebih tinggi dari Bambang Riyadi (Rp16.5M). Anomali: Maman Suryadi cuma 10 trip tapi revenue/trip tertinggi (Rp4.09M), 1.46× di atas Ganda Putra |
+| Pendapatan per supir | Ganda Putra Rp51.7M dari 20 trip berbayar (transaksi batal dikecualikan) — 3.5× lebih tinggi dari Bambang Riyadi (Rp14.8M). Anomali: Maman Suryadi cuma 9 trip tapi revenue/trip tertinggi (Rp3.43M), 1.33× di atas Ganda Putra |
 | Supir belum ditugaskan | Semua 15 supir aktif beroperasi (0 idle) — indikasi manajemen SDM yang baik, meski beban kerja antar supir tidak merata |
 
 Query lengkap: [`queries/04_performa_supir.sql`](queries/04_performa_supir.sql)
@@ -129,10 +131,10 @@ Lihat dashboard interaktif lengkap di [Tableau Public](https://public.tableau.co
 
 | Dashboard | Isi | Key Metric |
 |---|---|---|
-| Overview Bisnis | KPI cards + tren pendapatan bulanan | Rp1.07B total revenue 2024 |
+| Overview Bisnis | KPI cards + tren pendapatan bulanan | Rp999.1M total revenue 2024 |
 | Performa Mobil | Bar chart terlaris, pendapatan, denda per mobil | Toyota MPV #1 terlaris |
 | Analisis Pelanggan | Top 10 pelanggan, spending, penggunaan supir | Cahyo Purnomo #1 VIP |
-| Analisis Pembayaran | Distribusi metode & status transaksi | 79% transaksi lunas |
+| Analisis Pembayaran | Distribusi metode & status transaksi | 89.8% transaksi lunas, 10.2% masih DP |
 | Performa Supir | Ranking, pendapatan, penugasan supir | Ganda Putra #1 produktif |
 
 ---
@@ -157,6 +159,7 @@ Dataset pada project ini adalah **data dummy**, digenerate untuk keperluan pembe
 Sebagai bentuk transparansi soal penggunaan AI dalam project ini:
 
 - **17 query SQL** ([`queries/`](queries/)) sebagian besar saya tulis mandiri. 1–3 query disusun dengan arahan Claude (Anthropic) saat saya menemui kebuntuan teknis — proses koreksi dan penjelasannya menjadi bagian dari proses belajar saya.
+- Selama proses review, saya juga menemukan (dengan bantuan diskusi AI untuk menelusuri akar masalahnya) bahwa perhitungan revenue awal keliru menghitung transaksi berstatus DP sebagai lunas penuh. Setelah dikoreksi, seluruh angka revenue di project ini (termasuk dashboard dan laporan) diperbarui ke basis yang benar — didokumentasikan secara terbuka di Area 1 di atas, bukan disembunyikan.
 - Perancangan ERD, skema database, dan seluruh business insight adalah hasil pemikiran dan revisi saya sendiri, dengan AI sebagai partner diskusi untuk mengecek logika dan memberi umpan balik.
 
 Saya percaya AI adalah alat bantu, bukan pengganti proses belajar — sehingga kejelasan soal apa yang saya kerjakan mandiri vs. dengan bantuan penting untuk dicantumkan di sini.
