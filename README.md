@@ -1,6 +1,6 @@
 # Analisis Data Rental Mobil || SQL & Tableau
 
-Project analisis data end-to-end untuk bisnis rental mobil: mulai dari perancangan database relasional, penulisan query SQL untuk menjawab pertanyaan bisnis, hingga visualisasi dashboard interaktif.
+Project analisis data end-to-end untuk bisnis rental mobil: mulai dari perancangan database relasional (melanjutkan tugas perancangan ERD pada saat kuliah), penulisan query SQL untuk menjawab pertanyaan bisnis, hingga visualisasi dashboard interaktif.
 
 **Oleh:** Muhammad Jiddan Gumilang
 || [email](mailto:muhammadjiddan.g@gmail.com) || [LinkedIn](https://www.linkedin.com/in/muhammadjiddangumilang) || [Tableau Public](https://public.tableau.com/views/Analisis_rentalMobil/KPI_RentalMobil?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
@@ -9,16 +9,16 @@ Project analisis data end-to-end untuk bisnis rental mobil: mulai dari perancang
 
 ## Ringkasan Project
 
-Data analyst tidak mulai dari data — tapi dari pertanyaan bisnis. Project ini mensimulasikan proses tersebut untuk sebuah bisnis rental mobil:
+Project ini mensimulasikan proses tersebut untuk sebuah bisnis rental mobil:
 
 ```
-Pertanyaan Bisnis → Cari Data → Analisis (SQL) → Insight → Rekomendasi Bisnis
+Pertanyaan Bisnis > Cari Data > Analisis (SQL) > Insight > Rekomendasi Bisnis
 ```
 
 **Cakupan pekerjaan:**
 - Merancang ERD dan skema database relasional dari nol
 - Membuat 6 tabel (4 tabel master, 2 tabel transaksi) dengan relasi PK/FK
-- Menulis 17 query SQL analitik terbagi ke dalam 4 area bisnis dengan penyusunan query mayoritas mandiri, sebagian kecil dengan arahan AI saat menemui kebuntuan teknis (lihat catatan di        bagian bawah)
+- Menulis 17 query SQL analitik terbagi ke dalam 4 area bisnis dengan penyusunan query mayoritas mandiri, sebagian kecil dengan arahan AI saat menemui kebuntuan teknis (lihat catatan di bagian bawah)
 - Menerjemahkan hasil query menjadi business insight dan rekomendasi
 - Membangun 5 dashboard interaktif di Tableau Public
 
@@ -80,24 +80,24 @@ rental-mobil-data-analysis/
 
 | Query | Insight Utama |
 |---|---|
-| Total pendapatan per bulan | Juni & Desember menyumbang Rp410.4M (41.1% dari total Rp999.1M); Desember (Rp211.1M) 7.3× lipat November (Rp29.0M), bisnis rapuh di luar peak season |
-| Pendapatan per kuartal | Q2→Q3 anjlok 37.6% (Rp307.0M → Rp191.7M, 144 → 87 transaksi), terlihat pola "M-shape" yang sangat bergantung pada momen liburan |
+| Total pendapatan per bulan | Juni & Desember menyumbang Rp410.4M (41.1% dari total Rp999.1M). Desember (Rp211.1M) 7.3× lipat November (Rp29.0M), bisnis rapuh di luar peak season (Juni & Desember) |
+| Pendapatan per kuartal | Q2→Q3 anjlok 37.6% (Rp307.0M → Rp191.7M, 144 → 87 transaksi), terlihat pola naik turun berbentuk M yang sangat bergantung pada momen liburan |
 | Kontribusi denda | Total denda Rp11.7M (1.33% rata-rata revenue). Justru tertinggi di bulan sepi (Jan 2.20%, Nov 2.07%), terendah di peak season (Jun 0.85%, Des 0.76%) |
 | Kerugian transaksi batal | 59 transaksi batal = Rp159.7M potensi hilang (16% dari revenue aktual). 45.8% pembatalan terjadi di peak season (Jun+Des) |
 | Rata-rata nilai transaksi (AOV) | AOV rata-rata Rp2.27M. Uniknya, Juni (transaksi terbanyak) AOV-nya lebih rendah (Rp2.32M) dari Januari yang sepi (Rp2.68M) |
 
 Query lengkap: [`queries/01_revenue_keuangan.sql`](queries/01_revenue_keuangan.sql)
 
-> **Catatan koreksi:** Revenue di atas sudah dikoreksi dari perhitungan awal yang sempat menghitung transaksi berstatus `DP` (baru bayar sebagian) sebagai lunas penuh. Setelah dikoreksi dengan `CASE WHEN status_bayar = 'DP' THEN dp_awal ELSE total_bayar END`, total revenue turun dari Rp1.07M menjadi Rp999.1M (koreksi ~6.5%).
+> **Catatan koreksi:** Revenue di atas sudah dikoreksi dari perhitungan awal yang sempat menghitung transaksi berstatus `DP` (baru bayar sebagian) sebagai lunas penuh. Setelah dikoreksi dengan `CASE WHEN status_bayar = 'DP' THEN dp_awal ELSE total_bayar END`, total revenue turun dari Rp1.07B menjadi Rp999.1M (koreksi ~6.5%).
 
 ## Area 2 — Perilaku Pelanggan
 
 | Query | Insight Utama |
 |---|---|
-| Top 10 pelanggan aktif | Cahyo Purnomo (ID:229) #1 dengan 7 transaksi. **Catatan data:** nama pelanggan ada yang duplikat (mis. Luthfi Anwar muncul di 2 ID berbeda), semua insight di sini sudah di-dedup berdasarkan `id_pelanggan`, bukan nama |
+| Top 10 pelanggan aktif | Cahyo Purnomo (ID:229) #1 dengan 7 transaksi. **Catatan data:** nama pelanggan ada yang duplikat (karena nama pelanggan berulang setiap 50 nama), semua insight di sini sudah di-dedup berdasarkan `id_pelanggan`, bukan nama |
 | Pengeluaran tertinggi | Top 5 pelanggan (termasuk Cahyo Purnomo Rp30.7M) menyumbang Rp94M (9.4% dari total), distribusi spending pelanggan cukup tersebar, tidak bergantung 1 pelanggan |
-| Keterlambatan berulang | 81 dari 300 pelanggan (27%) pernah terlambat; 11 pelanggan repeat offender. Cahyo Purnomo juga masuk 3 pelanggan paling sering terlambat (3×) |
-| Penggunaan supir | 39.0% transaksi valid (172/441) pakai supir, berkontribusi ~40.2% revenue (Rp402.1M) — lebih tinggi dari proporsi volumenya, dihitung dengan window function `OVER()` |
+| Keterlambatan berulang | 81 dari 300 pelanggan (27%) pernah terlambat. 11 pelanggan repeat offender. Cahyo Purnomo juga masuk 3 pelanggan paling sering terlambat (3×) |
+| Penggunaan supir | 39.0% transaksi valid (172/441) pakai supir, berkontribusi kurang lebih sebesar 40.2% dari revenue (Rp402.1M), ini lebih tinggi dari proporsi volumenya, dihitung dengan window function `OVER()` |
 | Churn (1x transaksi) | 92 pelanggan (38% dari total aktif) hanya bertransaksi 1x → kandidat win-back campaign |
 
 Query lengkap: [`queries/02_analisis_pelanggan.sql`](queries/02_analisis_pelanggan.sql)
@@ -107,9 +107,9 @@ Query lengkap: [`queries/02_analisis_pelanggan.sql`](queries/02_analisis_pelangg
 | Query | Insight Utama |
 |---|---|
 | Mobil paling sering disewa | Toyota 126 transaksi (25.2%); MPV tipe terlaris (180 transaksi, 36%). 3 unit teratas (31 transaksi masing-masing) semuanya SUV |
-| Pendapatan per unit | Daihatsu City Car ID:11 tertinggi (Rp147.4M, Rp5,894,000/transaksi) — tapi unit ID:19 dengan tipe sama cuma Rp22.2M, selisih 5.6× → indikasi 2 varian harga berbeda (luxury vs standard) di 1 nama model |
+| Pendapatan per unit | Daihatsu City Car ID:11 tertinggi (Rp147.4M, Rp5,894,000/transaksi) — tapi unit ID:19 dengan tipe sama cuma Rp22.2M, selisih 5.6× ini  mengindikasikan terdapat 2 varian harga berbeda (luxury vs standard) di 1 nama model |
 | Rata-rata lama sewa | Rata-rata 4.17 hari/transaksi. Armada Honda Sedan (ID:17) terlama (4.8 hari), konsisten dengan revenue/transaksi tertinggi (segmen bisnis/jarak jauh) |
-| Mobil aktivitas rendah | Semua 20 unit tersewa >10× (tidak ada yang idle), tapi gap unit tersibuk (31×) vs tersedikit (14×) mencapai 121% — distribusi permintaan tidak merata |
+| Mobil aktivitas rendah | Semua 20 unit tersewa >10× (tidak ada yang idle), tapi gap unit tersibuk (31×) vs tersedikit (14×) mencapai 121%, menunjukkan distribusi permintaan kurang merata |
 
 Query lengkap: [`queries/03_performa_mobil.sql`](queries/03_performa_mobil.sql)
 
@@ -162,4 +162,4 @@ Sebagai bentuk transparansi soal penggunaan AI dalam project ini:
 - Selama proses review, saya juga menemukan (dengan bantuan diskusi AI untuk menelusuri akar masalahnya) bahwa perhitungan revenue awal keliru menghitung transaksi berstatus DP sebagai lunas penuh. Setelah dikoreksi, seluruh angka revenue di project ini (termasuk dashboard dan laporan) diperbarui ke basis yang benar — didokumentasikan secara terbuka di Area 1 di atas, bukan disembunyikan.
 - Perancangan ERD, skema database, dan seluruh business insight adalah hasil pemikiran dan revisi saya sendiri, dengan AI sebagai partner diskusi untuk mengecek logika dan memberi umpan balik.
 
-Saya percaya AI adalah alat bantu, bukan pengganti proses belajar — sehingga kejelasan soal apa yang saya kerjakan mandiri vs. dengan bantuan penting untuk dicantumkan di sini.
+Saya menggunakan AI sebagai alat bantu, bukan pengganti proses belajar. Sehingga kejelasan soal apa yang saya kerjakan mandiri dan dengan bantuan AI penting untuk dicantumkan di sini.
