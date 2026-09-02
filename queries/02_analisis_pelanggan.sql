@@ -36,6 +36,7 @@ FROM sewa s
 JOIN pelanggan p ON s.id_pelanggan = p.id_pelanggan
 WHERE s.status_sewa = 'TERLAMBAT'
 GROUP BY p.nama_pelanggan, p.id_pelanggan
+HAVING COUNT(s.id_sewa) > 1
 ORDER BY jumlah_keterlambatan DESC;
 
 
