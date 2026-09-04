@@ -10,7 +10,7 @@ SELECT
 FROM sewa s
 JOIN mobil m ON m.id_mobil = s.id_mobil
 GROUP BY m.merk || ' ' || m.tipe, m.id_mobil
-ORDER BY total_disewa DESC;
+ORDER BY total_disewa DESC
 
 
 -- Query 2: Pendapatan per Unit Mobil
@@ -18,15 +18,21 @@ SELECT
     m.merk || ' ' || m.tipe AS nama_mobil,
     m.id_mobil,
     COUNT(s.id_sewa)    AS total_disewa,
-    SUM(b.total_bayar)  AS pendapatan_per_mobil
+    SUM(CASE WHEN b.status_bayar = 'LUNAS' THEN b.total_bayar
+             WHEN b.status_bayar = 'DP' THEN b.dp_awal
+             ELSE 0 END)  AS pendapatan_per_mobil,
+    ROUND(AVG(CASE WHEN b.status_bayar = 'LUNAS' THEN b.total_bayar
+                   WHEN b.status_bayar = 'DP' THEN b.dp_awal
+                   ELSE 0 END),1)  AS rata_rata_pendapatan_perMobil
 FROM bayar b
 JOIN sewa s  ON b.id_sewa  = s.id_sewa
 JOIN mobil m ON m.id_mobil = s.id_mobil
 WHERE s.status_sewa != 'BATAL'
 GROUP BY m.merk || ' ' || m.tipe, m.id_mobil
-ORDER BY pendapatan_per_mobil DESC;
+ORDER BY pendapatan_per_mobil DESC
 
-
+    
+    
 -- Query 3: Rata-rata Lama Sewa per Mobil
 SELECT
     m.id_mobil,
@@ -37,8 +43,9 @@ FROM sewa s
 JOIN mobil m ON s.id_mobil = m.id_mobil
 WHERE s.status_sewa != 'BATAL'
 GROUP BY m.id_mobil, m.merk || ' ' || m.tipe
-ORDER BY rata_lama_sewa DESC;
+ORDER BY rata_lama_sewa DESC
 
+    
 
 -- Query 4: Mobil dengan Aktivitas Rendah (<= 10x disewa)
 SELECT
