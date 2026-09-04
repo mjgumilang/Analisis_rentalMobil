@@ -11,7 +11,7 @@ FROM sewa s
 JOIN pelanggan p ON s.id_pelanggan = p.id_pelanggan
 GROUP BY p.id_pelanggan, p.nama_pelanggan
 ORDER BY total_transaksi DESC
-FETCH FIRST 10 ROWS ONLY;
+FETCH FIRST 10 ROWS ONLY
 
 
 -- Query 2: Pelanggan dengan Total Pengeluaran Tertinggi
@@ -36,20 +36,24 @@ FROM sewa s
 JOIN pelanggan p ON s.id_pelanggan = p.id_pelanggan
 WHERE s.status_sewa = 'TERLAMBAT'
 GROUP BY p.nama_pelanggan, p.id_pelanggan
-ORDER BY jumlah_keterlambatan DESC;
+ORDER BY jumlah_keterlambatan DESC
 
 
 -- Query 4: Persentase Penggunaan Supir (Window Function)
-SELECT
-    CASE WHEN pakai_supir = 0
-         THEN 'Tanpa Supir'
-         ELSE 'Dengan Supir'
-    END AS keterangan,
-    COUNT(*) AS jumlah,
-    ROUND(COUNT(*) * 100 / SUM(COUNT(*)) OVER(), 1) AS persentase
-FROM sewa
-GROUP BY pakai_supir
-ORDER BY pakai_supir;
+SELECT 
+    CASE WHEN s.pakai_supir = 0 then 'Tanpa Supir'
+         ELSE 'Dengan Supir' END AS Keterangan,
+    COUNT(*) as jumlah,
+    ROUND(COUNT(*) * 100 / SUM(COUNT(*)) OVER(),1) as presentase,
+    ROUND(AVG(CASE WHEN b.status_bayar = 'LUNAS' THEN b.total_bayar
+             WHEN b.status_bayar = 'DP' THEN b.dp_awal
+             ELSE 0 END),2) as rata_rata_transaksi
+
+FROM sewa s
+JOIN bayar b ON s.id_sewa = b.id_sewa
+WHERE s.status_sewa != 'BATAL'
+GROUP by s.pakai_supir
+ORDER by COUNT(*) DESC
 
 
 -- Query 5: Identifikasi Pelanggan Churn (hanya 1x transaksi)
