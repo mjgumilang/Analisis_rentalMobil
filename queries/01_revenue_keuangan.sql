@@ -4,28 +4,34 @@
 
 -- Query 1: Total Pendapatan per Bulan
 SELECT
-    TO_CHAR(s.tgl_ambil, 'YYYY-MM')  AS bulan,
-    COUNT(s.id_sewa)                  AS jumlah_transaksi,
-    SUM(b.total_bayar)                AS total_pendapatan
+    TO_CHAR(s.tgl_ambil, 'YYYY-MM') AS bulan,
+    COUNT(s.id_sewa) AS jumlah_transaksi,
+    SUM(CASE WHEN b.status_bayar = 'LUNAS' THEN b.total_bayar
+             WHEN b.status_bayar = 'DP' THEN b.dp_awal
+             ELSE 0 END) AS total_pendapatan
 FROM sewa s
 JOIN bayar b ON s.id_sewa = b.id_sewa
 WHERE s.status_sewa != 'BATAL'
 GROUP BY TO_CHAR(s.tgl_ambil, 'YYYY-MM')
-ORDER BY bulan;
+ORDER BY bulan
 
 
 -- Query 2: Pendapatan per Kuartal
 SELECT
-    TO_CHAR(s.tgl_ambil, 'YYYY')        AS tahun,
-    'Q' || TO_CHAR(s.tgl_ambil, 'Q')    AS kuartal,
-    COUNT(s.id_sewa)                     AS jumlah_transaksi,
-    SUM(b.total_bayar)                   AS total_pendapatan,
-    ROUND(AVG(b.total_bayar), 0)         AS rata_rata_transaksi
+    TO_CHAR(s.tgl_ambil, 'YYYY') AS tahun,
+    'Q' || TO_CHAR(s.tgl_ambil, 'Q') AS kuartal,
+    COUNT(s.id_sewa) AS jumlah_transaksi,
+    SUM(CASE WHEN b.status_bayar = 'LUNAS' THEN b.total_bayar
+             WHEN b.status_bayar = 'DP' THEN b.dp_awal
+             ELSE 0 END) AS total_pendapatan,
+    ROUND(AVG(CASE WHEN b.status_bayar = 'LUNAS' THEN b.total_bayar
+                   WHEN b.status_bayar = 'DP' THEN b.dp_awal
+                   ELSE 0 END), 0) AS rata_rata_transaksi
 FROM sewa s
 JOIN bayar b ON s.id_sewa = b.id_sewa
 WHERE s.status_sewa != 'BATAL'
 GROUP BY TO_CHAR(s.tgl_ambil, 'YYYY'), TO_CHAR(s.tgl_ambil, 'Q')
-ORDER BY tahun, kuartal;
+ORDER BY tahun, kuartal
 
 
 -- Query 3: Kontribusi Denda terhadap Pendapatan
@@ -39,7 +45,7 @@ FROM sewa s
 JOIN bayar b ON s.id_sewa = b.id_sewa
 WHERE s.status_sewa != 'BATAL'
 GROUP BY TO_CHAR(s.tgl_ambil, 'YYYY-MM')
-ORDER BY bulan;
+ORDER BY bulan
 
 
 -- Query 4: Kerugian dari Transaksi Batal
@@ -54,7 +60,7 @@ FROM sewa s
 JOIN mobil m ON s.id_mobil = m.id_mobil
 WHERE s.status_sewa = 'BATAL'
 GROUP BY TO_CHAR(s.tgl_ambil, 'YYYY-MM')
-ORDER BY jumlah_batal DESC;
+ORDER BY jumlah_batal DESC
 
 
 -- Query 5: Rata-rata Nilai Transaksi per Bulan
@@ -67,4 +73,4 @@ FROM sewa s
 JOIN mobil m ON s.id_mobil = m.id_mobil
 WHERE s.status_sewa != 'BATAL'
 GROUP BY TO_CHAR(s.tgl_ambil, 'MM-YYYY')
-ORDER BY bulan;
+ORDER BY bulan
